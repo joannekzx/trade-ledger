@@ -1,0 +1,7 @@
+landing/
+__pycache__/
+*.pyc
+.venv/
+venv/
+WALKTHROUGH.md
+SPEC.md

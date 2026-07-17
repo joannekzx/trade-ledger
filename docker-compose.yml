@@ -1,0 +1,12 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: ledger
+      POSTGRES_USER: ledger
+      POSTGRES_PASSWORD: ledger
+    ports:
+      - "5432:5432"   # note: clashes with the reconciliation project's Postgres; don't run both at once
+    volumes:
+      # schema.sql runs automatically on first boot (creates tables, invariants, seeds accounts)
+      - ./schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
