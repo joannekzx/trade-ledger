@@ -16,7 +16,11 @@ create table journal_entry (
     external_event_id  text unique not null,   -- idempotency key from the source; replays collapse here
     description        text,
     valid_time         timestamptz not null,   -- when the movement is effective
-    recorded_at        timestamptz not null,   -- when we wrote it down (transaction time)
+    -- transaction time: when we wrote it down. Defaults to the server clock so an app that
+    -- omits it cannot invent one; the loader still passes an explicit value to seed historical
+    -- demo data. In production this column would not be client-settable at all -- a falsifiable
+    -- transaction time makes the append-only guarantee cosmetic.
+    recorded_at        timestamptz not null default now(),
     reverses_event_id  text                    -- external id of the entry this reverses, if any
 );
 
@@ -28,6 +32,10 @@ create table posting (
 );
 
 create index on posting (account_id);
+-- entry_id is a FK, and Postgres does NOT index FK columns automatically. The deferred
+-- balance trigger below looks up postings by entry_id once per posting at commit, so without
+-- this index every commit sequentially scans the whole posting table.
+create index on posting (entry_id);
 create index on journal_entry (valid_time);
 create index on journal_entry (recorded_at);
 
