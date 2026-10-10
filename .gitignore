@@ -1,7 +1,10 @@
-landing/
+data/
 __pycache__/
 *.pyc
+*.egg-info/
 .venv/
 venv/
+.ipynb_checkpoints/
+.pytest_cache/
 WALKTHROUGH.md
 SPEC.md
