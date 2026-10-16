@@ -12,6 +12,7 @@ axes so that question is a SQL query, and measures how wrong the naive answer is
 
 > Repo name is historical (`trade-ledger`). It started as a double-entry ledger on generated
 > data and was rebuilt around real filings; the bitemporal core is the part worth keeping.
+> The original double-entry ledger is kept in [`double-entry-ledger/`](double-entry-ledger/).
 
 ---
 

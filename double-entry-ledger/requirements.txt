@@ -1,0 +1,1 @@
+psycopg2-binary   # load.py only; the generator is pure stdlib
